@@ -1,0 +1,10 @@
+---
+- name : Install Python 3
+  hosts: localhost
+  become: true
+
+  tasks:
+  - name: Install Python
+    apt:
+      name: python3
+      state: latest
