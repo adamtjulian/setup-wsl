@@ -1,0 +1,10 @@
+---
+- name : Install Vim
+  hosts: localhost
+  become: true
+
+  tasks:
+  - name: Install Vim Package
+    apt:
+      name: vim
+      state: latest
