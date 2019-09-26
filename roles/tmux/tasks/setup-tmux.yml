@@ -11,8 +11,9 @@
     path: ~/.tmux.conf
     owner: atjulian
     group: atjulian
-    mode: 0644
+    mode: '0644'
 
 - name: Remove executable attribute on tmux conf
   command: chmod -x+X ~/.tmux.conf
-  warn: false
+  args:
+    warn: false

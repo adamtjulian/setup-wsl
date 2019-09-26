@@ -3,3 +3,8 @@
   apt:
     name: git
     state: latest
+
+- name: Add Github Credentials
+  template:
+    src: ../files/git-credentials.j2
+    dest: ~/.git-credentials
