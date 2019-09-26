@@ -4,9 +4,15 @@
     name: tmux
     state: latest
 - name: Place tmux config in home dir
-  copy:
-    src: ../../../config/.tmux.conf
-    dest: ~/
+  command: "cp {{ role_path  }}/files/tmux.conf ~/.tmux.conf"
+
+- name: Set permissions on tmux config
+  file:
+    path: ~/.tmux.conf
     owner: atjulian
     group: atjulian
-    mode: '0644'
+    mode: 0644
+
+- name: Remove executable attribute on tmux conf
+  command: chmod -x+X ~/.tmux.conf
+  warn: false
