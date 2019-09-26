@@ -1,0 +1,7 @@
+- name: Install Ubuntu Packages for WSL
+  hosts: localhost
+  roles:
+    - python
+    - git
+    - tmux
+    - vim

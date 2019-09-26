@@ -8,3 +8,7 @@
     apt:
       name: python3
       state: latest
+
+  - debug:
+      msg: Git Username - {{ git_username }}
+
