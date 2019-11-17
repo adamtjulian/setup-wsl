@@ -1,0 +1,49 @@
+# https://linuxhint.com/dnsmasq_ubuntu_server/
+- name: Stop and Disable systemd-resolved
+  systemd:
+    state: stopped
+    name: systemd-resolved
+    enabled: no
+  tags: ['never', 'dns-setup']
+
+- name: Backup original resolve.conf file to home directory
+  command: "mv /etc/resolve.conf /home/pi/resolve.conf.bak"
+  tags: ['never', 'dns-setup']
+
+- name: Install dnsmasq
+  apt:
+    name: dnsmasq
+    state: latest
+  tags: ['never', 'dns-setup']
+
+- name: Start dnsmasq on boot
+  service:
+    name: dnsmasq
+    enabled: yes
+  tags: ['never', 'dns-setup']
+
+- name: Backup default dnsmasq config
+  command: "mv /etc/dnsmasq.conf /home/pi/dnsmasq{{ ansible_date_time.date }}{{ ansible_date_time.time }}.conf.bak"
+  tags: ['never', 'dns-setup']
+
+- name: Put dnsmasq config into place
+  copy:
+    src: dnsmasq.conf
+    dest: /etc/dnsmasq.conf
+  tags: ['never', 'dns-setup']
+
+- name: Backup original hosts file
+  command: "cp /etc/hosts /home/pi/hosts{{ ansible_date_time.date }}{{ ansible_date_time.time }}.bak"
+  tags: ['never', 'dns-setup', 'dns-config']
+
+- name: Put hosts file into place (contains DNS server conf)
+  copy:
+    src: hosts.conf
+    dest: /etc/hosts
+  tags: ['never', 'dns-setup', 'dns-config']
+
+- name: Restart dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+  tags: always

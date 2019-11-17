@@ -1,8 +1,16 @@
-- name: Install Ubuntu Packages for WSL
-  hosts: localhost
+- name: Install and configure default packages for ubuntu machines
+  hosts: all
+  become: yes
   roles:
     - python
     - git
     - tmux
     - vim
     - node
+
+
+- name: Install and configure DNS server using dnsmasq
+  hosts: dnsserver
+  become: yes
+  roles:
+    - dnsmasq

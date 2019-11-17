@@ -3,14 +3,19 @@
   apt:
     name: tmux
     state: latest
+
 - name: Place tmux config in home dir
-  command: "cp {{ role_path  }}/files/tmux.conf ~/.tmux.conf"
+  become: false
+  copy:
+    src: tmux.conf
+    dest: ~/.tmux.conf
 
 - name: Set permissions on tmux config
+  become: false
   file:
     path: ~/.tmux.conf
-    owner: atjulian
-    group: atjulian
+    owner: "{{ unix_user }}"
+    group: "{{ unix_user }}"
     mode: '0644'
 
 - name: Remove executable attribute on tmux conf
