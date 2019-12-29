@@ -1,0 +1,58 @@
+---
+  - name: Setup docker GPG key
+    apt_key:
+      url: "https://download.docker.com/linux/raspbian/gpg"
+      state: present
+    tags:
+      - none
+      - docker-config
+
+  - name: Add docker repo
+    apt_repository:
+      repo: "deb https://download.docker.com/linux/raspbian/ stretch stable"
+      state: present
+      filename: docker
+    tags:
+      - none
+      - docker-config
+
+  - name: "APT - install misc packages"
+    apt:
+      update_cache: yes
+      pkg:
+        - "aptitude"
+        - "apt-transport-https"
+        - "ca-certificates"
+        - "curl"
+        - "software-properties-common"
+    tags:
+      - none
+      - docker-config
+
+  - name: "APT - install 'docker-ce'"
+    apt:
+      name: "docker-ce"
+      update_cache: yes
+    tags:
+      - none
+      - docker-config
+    
+  - name: Create docker security group
+    group:
+      name: docker
+      state: present
+    tags:
+      - none
+      - docker-config
+
+  - name: Add user to new group
+    user:
+      name: "{{ unix_user }}"
+      group: docker
+      append: yes
+    tags:
+      - none
+      - docker-config
+
+  - debug:
+      msg: "Username: {{ unix_user }}"

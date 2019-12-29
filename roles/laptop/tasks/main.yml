@@ -1,0 +1,6 @@
+---
+  - name: Configure laptop so when it closes the laptop doesn't go to sleep
+    copy:
+      src: logind.conf
+      dest: /etc/systemd/logind.conf
+    become: yes

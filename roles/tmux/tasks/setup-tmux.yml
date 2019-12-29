@@ -5,7 +5,8 @@
     state: latest
 
 - name: Place tmux config in home dir
-  become: false
+  become: yes
+  become_user: "{{ unix_user }}"
   copy:
     src: tmux.conf
     dest: ~/.tmux.conf
@@ -15,10 +16,11 @@
   file:
     path: ~/.tmux.conf
     owner: "{{ unix_user }}"
-    group: "{{ unix_user }}"
     mode: '0644'
 
 - name: Remove executable attribute on tmux conf
   command: chmod -x+X ~/.tmux.conf
+  become: yes
+  become_user: "{{ unix_user }}"
   args:
     warn: false

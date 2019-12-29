@@ -23,7 +23,7 @@
   tags: ['never', 'dns-setup']
 
 - name: Backup default dnsmasq config
-  command: "mv /etc/dnsmasq.conf /home/pi/dnsmasq{{ ansible_date_time.date }}{{ ansible_date_time.time }}.conf.bak"
+  command: "mv /etc/dnsmasq.conf /home/pi/dnsmask-backup/dnsmasq{{ ansible_date_time.date }}{{ ansible_date_time.time }}.conf.bak"
   tags: ['never', 'dns-setup']
 
 - name: Put dnsmasq config into place
@@ -33,7 +33,7 @@
   tags: ['never', 'dns-setup']
 
 - name: Backup original hosts file
-  command: "cp /etc/hosts /home/pi/hosts{{ ansible_date_time.date }}{{ ansible_date_time.time }}.bak"
+  command: "cp /etc/hosts /home/pi/dnsmask-backup/hosts{{ ansible_date_time.date }}{{ ansible_date_time.time }}.bak"
   tags: ['never', 'dns-setup', 'dns-config']
 
 - name: Put hosts file into place (contains DNS server conf)
@@ -46,4 +46,4 @@
   service:
     name: dnsmasq
     state: restarted
-  tags: always
+  tags: ['never', 'dns-setup', 'dns-config']

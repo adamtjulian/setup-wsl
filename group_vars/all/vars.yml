@@ -1,4 +1,6 @@
 {
    git_username : '{{ vault_git_username }}',
-   git_key: "{{ vault_git_key }}"
+   git_key: "{{ vault_git_key }}",
+   NODEJS_VERSION: "12",
+   ansible_distribution_release: "bionic"
 }
