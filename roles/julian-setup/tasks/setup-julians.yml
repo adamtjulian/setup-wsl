@@ -1,4 +1,13 @@
 ---
+- name: Make sure .ssh directory exists for root
+  file:
+    path: /root/.ssh
+    owner: root
+    group: root
+    state: directory
+  state: present
+  become: yes
+
 - name: Copy pub key for SSHing for root
   template:
     src: authorized_keys.j2
@@ -11,6 +20,15 @@
   become: yes
   args:
     warn: false
+
+- name: Make sure .ssh directory exists for {{ unix_user }}
+  file:
+    path: /home/{{ unix_user }}/.ssh
+    owner: '{{ unix_user}}'
+    group: '{{ unix_user}}'
+    state: directory
+  state: present
+  become: yes
 
 - name: Copy pub key for SSHing for {{ unix_user }}
   template:

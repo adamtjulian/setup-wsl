@@ -6,9 +6,11 @@
     enabled: no
   tags: ['never', 'dns-setup']
 
-- name: Backup original resolve.conf file to home directory
-  command: "mv /etc/resolve.conf /home/pi/resolve.conf.bak"
-  tags: ['never', 'dns-setup']
+
+
+# - name: Backup original resolve.conf file to home directory
+#   command: "mv /etc/resolve.conf /home/pi/resolve.conf.bak"
+#   tags: ['never', 'dns-setup']
 
 - name: Install dnsmasq
   apt:
@@ -22,9 +24,15 @@
     enabled: yes
   tags: ['never', 'dns-setup']
 
+- name: Check that the dnsmasq.conf exists
+  stat:
+    path: /etc/dnsmasq.conf
+  register: dnsmasq_result
+
 - name: Backup default dnsmasq config
   command: "mv /etc/dnsmasq.conf /home/pi/dnsmask-backup/dnsmasq{{ ansible_date_time.date }}{{ ansible_date_time.time }}.conf.bak"
   tags: ['never', 'dns-setup']
+  when: dnsmasq_result.stat.exists == True
 
 - name: Put dnsmasq config into place
   copy:
