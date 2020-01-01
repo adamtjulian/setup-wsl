@@ -2,5 +2,9 @@
    git_username : '{{ vault_git_username }}',
    git_key: "{{ vault_git_key }}",
    NODEJS_VERSION: "12",
-   ansible_distribution_release: "bionic"
+   ansible_distribution_release: "bionic",
+   ansible_become_password: '{{ vault_ansible_become_password }}',
+   ansible_ssh_private_file: "~/.ssh/id_rsa",
+   unix_user: "atjulian",
+   pub_key: '{{ vault_pub_key }}'
 }

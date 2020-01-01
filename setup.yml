@@ -7,16 +7,21 @@
     - tmux
     - vim
     - node
+    - julian-setup
     # - ssh enable at startup
   tags:
     - none
     - linux-config
+    - docker-config
 
 - name: Install and configure DNS server using dnsmasq
   hosts: dnsserver
   become: yes
   roles:
     - dnsmasq
+  tags:
+    - none
+    - dns-config
 
 - name: Install Docker
   hosts: all

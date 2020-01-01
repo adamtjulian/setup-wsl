@@ -1,3 +1,4 @@
 {
-  unix_user: "pi"
+  unix_user: "pi",
+  ansible_user: "{{ unix_user }}"
 }

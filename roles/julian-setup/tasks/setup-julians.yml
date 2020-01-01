@@ -1,0 +1,42 @@
+---
+- name: Copy pub key for SSHing for root
+  template:
+    src: authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
+    mode: '0700'
+  become: yes
+
+- name: Remove executable attribute on keys
+  command: chmod -x+X /root/.ssh/authorized_keys
+  become: yes
+  args:
+    warn: false
+
+- name: Copy pub key for SSHing for {{ unix_user }}
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ unix_user }}/.ssh/authorized_keys
+    mode: '0700'
+  become: yes
+
+- name: Set permissions on authorized keys
+  file:
+    path: /home/{{ unix_user }}/.ssh/authorized_keys
+    owner: "{{ unix_user }}"
+    group: "{{ unix_user }}"
+    mode: "0700"
+  become: yes
+
+- name: Remove executable attribute on keys
+  command: chmod -x+X /home/{{ unix_user }}/.ssh/authorized_keys
+  become: yes
+  args:
+    warn: false
+
+- name: Put in bashrc config
+  copy:
+    src: bashrc.txt
+    dest: /home/{{ unix_user }}/.bashrc
+    mode: "0644"
+  become: yes
+  become_user: "{{ unix_user }}"
